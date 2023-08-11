@@ -60,7 +60,7 @@ class ModuleAsyncOpen(ModuleBase):
         callback = self.get(ATTR_ON_ASYNC_CLOSE)
 
         if callback is not None and not iscoroutinefunction(callback):
-            raise ModuleCallbackNotCoroutineError(self.name, ATTR_ON_ASYNC_OPEN)
+            raise ModuleCallbackNotCoroutineError(self.name, ATTR_ON_ASYNC_CLOSE)
 
         try:
             if callback is not None:

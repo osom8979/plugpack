@@ -5,8 +5,7 @@ __doc__ = "Documentation"
 
 
 async def on_async_open(*args, **kwargs) -> None:
-    assert args
-    assert kwargs
+    pass
 
 
 async def on_async_close() -> None:

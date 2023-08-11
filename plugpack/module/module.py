@@ -26,21 +26,13 @@ class Module(
         self._kwargs = kwargs
 
     def open(self) -> None:
-        if not self.has_on_open:
-            return
         self.on_open(*self._args, **self._kwargs)
 
     def close(self) -> None:
-        if not self.has_on_close:
-            return
         self.on_close()
 
     async def async_open(self) -> None:
-        if not self.has_on_async_open:
-            return
         await self.on_async_open(*self._args, **self._kwargs)
 
     async def async_close(self) -> None:
-        if not self.has_on_async_close:
-            return
         await self.on_async_close()

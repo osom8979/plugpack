@@ -55,6 +55,22 @@ class ModuleTestCase(ModuleIsolatedAsyncioTestCase):
         self.assertEqual("0.0.0", module.version)
         self.assertEqual("Documentation", module.doc)
 
+    def test_open_close(self):
+        module = Module(self.plugpack_test_open)
+        self.assertFalse(module.opened)
+        module.open()
+        self.assertTrue(module.opened)
+        module.close()
+        self.assertFalse(module.opened)
+
+    async def test_async_open_close(self):
+        module = Module(self.plugpack_test_async_open)
+        self.assertFalse(module.async_opened)
+        await module.async_open()
+        self.assertTrue(module.async_opened)
+        await module.async_close()
+        self.assertFalse(module.async_opened)
+
 
 if __name__ == "__main__":
     main()

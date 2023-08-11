@@ -5,8 +5,7 @@ __doc__ = "Documentation"
 
 
 def on_open(*args, **kwargs) -> None:
-    assert args
-    assert kwargs
+    pass
 
 
 def on_close() -> None:
