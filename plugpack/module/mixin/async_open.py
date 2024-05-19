@@ -9,7 +9,7 @@ from plugpack.module.errors import (
     ModuleCallbackNotReadyStateError,
     ModuleCallbackRuntimeError,
 )
-from plugpack.module.mixin._module_base import ModuleBase
+from plugpack.module.mixin._base import ModuleBase
 
 ATTR_ON_ASYNC_OPEN: Final[str] = "on_async_open"
 ATTR_ON_ASYNC_CLOSE: Final[str] = "on_async_close"
@@ -38,34 +38,40 @@ class ModuleAsyncOpen(ModuleBase):
 
     async def on_async_open(self, *args, **kwargs) -> None:
         if self._async_opened:
-            raise ModuleCallbackAlreadyStateError(self.name, ATTR_ON_ASYNC_OPEN)
+            raise ModuleCallbackAlreadyStateError(self.module_name, ATTR_ON_ASYNC_OPEN)
 
         callback = self.get(ATTR_ON_ASYNC_OPEN)
 
         if callback is not None and not iscoroutinefunction(callback):
-            raise ModuleCallbackNotCoroutineError(self.name, ATTR_ON_ASYNC_OPEN)
+            raise ModuleCallbackNotCoroutineError(self.module_name, ATTR_ON_ASYNC_OPEN)
 
         try:
             if callback is not None:
                 await callback(*args, **kwargs)
         except BaseException as e:
-            raise ModuleCallbackRuntimeError(self.name, ATTR_ON_ASYNC_OPEN) from e
+            raise ModuleCallbackRuntimeError(
+                self.module_name, ATTR_ON_ASYNC_OPEN
+            ) from e
         else:
             self._async_opened = True
 
     async def on_async_close(self) -> None:
         if not self._async_opened:
-            raise ModuleCallbackNotReadyStateError(self.name, ATTR_ON_ASYNC_CLOSE)
+            raise ModuleCallbackNotReadyStateError(
+                self.module_name, ATTR_ON_ASYNC_CLOSE
+            )
 
         callback = self.get(ATTR_ON_ASYNC_CLOSE)
 
         if callback is not None and not iscoroutinefunction(callback):
-            raise ModuleCallbackNotCoroutineError(self.name, ATTR_ON_ASYNC_CLOSE)
+            raise ModuleCallbackNotCoroutineError(self.module_name, ATTR_ON_ASYNC_CLOSE)
 
         try:
             if callback is not None:
                 await callback()
         except BaseException as e:
-            raise ModuleCallbackRuntimeError(self.name, ATTR_ON_ASYNC_CLOSE) from e
+            raise ModuleCallbackRuntimeError(
+                self.module_name, ATTR_ON_ASYNC_CLOSE
+            ) from e
         finally:
             self._async_opened = False

@@ -3,11 +3,11 @@
 from types import ModuleType
 from typing import Union
 
-from plugpack.module.mixin.module_async_open import ModuleAsyncOpen
-from plugpack.module.mixin.module_doc import ModuleDoc
-from plugpack.module.mixin.module_logger import ModuleLogger
-from plugpack.module.mixin.module_open import ModuleOpen
-from plugpack.module.mixin.module_version import ModuleVersion
+from plugpack.module.mixin.async_open import ModuleAsyncOpen
+from plugpack.module.mixin.doc import ModuleDoc
+from plugpack.module.mixin.logger import ModuleLogger
+from plugpack.module.mixin.open import ModuleOpen
+from plugpack.module.mixin.version import ModuleVersion
 
 
 class Module(

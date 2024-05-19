@@ -7,7 +7,7 @@ from plugpack.module.errors import (
     ModuleCallbackNotReadyStateError,
     ModuleCallbackRuntimeError,
 )
-from plugpack.module.mixin._module_base import ModuleBase
+from plugpack.module.mixin._base import ModuleBase
 
 ATTR_ON_OPEN: Final[str] = "on_open"
 ATTR_ON_CLOSE: Final[str] = "on_close"
@@ -36,7 +36,7 @@ class ModuleOpen(ModuleBase):
 
     def on_open(self, *args, **kwargs) -> None:
         if self._opened:
-            raise ModuleCallbackAlreadyStateError(self.name, ATTR_ON_OPEN)
+            raise ModuleCallbackAlreadyStateError(self.module_name, ATTR_ON_OPEN)
 
         callback = self.get(ATTR_ON_OPEN)
 
@@ -44,13 +44,13 @@ class ModuleOpen(ModuleBase):
             if callback is not None:
                 callback(*args, **kwargs)
         except BaseException as e:
-            raise ModuleCallbackRuntimeError(self.name, ATTR_ON_OPEN) from e
+            raise ModuleCallbackRuntimeError(self.module_name, ATTR_ON_OPEN) from e
         else:
             self._opened = True
 
     def on_close(self) -> None:
         if not self._opened:
-            raise ModuleCallbackNotReadyStateError(self.name, ATTR_ON_CLOSE)
+            raise ModuleCallbackNotReadyStateError(self.module_name, ATTR_ON_CLOSE)
 
         callback = self.get(ATTR_ON_CLOSE)
 
@@ -58,6 +58,6 @@ class ModuleOpen(ModuleBase):
             if callback is not None:
                 callback()
         except BaseException as e:
-            raise ModuleCallbackRuntimeError(self.name, ATTR_ON_CLOSE) from e
+            raise ModuleCallbackRuntimeError(self.module_name, ATTR_ON_CLOSE) from e
         finally:
             self._opened = False

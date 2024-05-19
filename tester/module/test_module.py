@@ -4,7 +4,7 @@ from importlib import import_module
 from sys import modules as sys_modules
 from unittest import main
 
-from plugpack.module.mixin._module_base import module_stash  # noqa
+from plugpack.module.mixin._base import module_stash  # noqa
 from plugpack.module.module import Module
 from tester.unittest.module_test_case import ModuleIsolatedAsyncioTestCase
 
@@ -51,7 +51,7 @@ class ModuleTestCase(ModuleIsolatedAsyncioTestCase):
 
     def test_attributes(self):
         module = Module(self.plugpack_test_open)
-        self.assertEqual(self.plugpack_test_open, module.name)
+        self.assertEqual(self.plugpack_test_open, module.module_name)
         self.assertEqual("0.0.0", module.version)
         self.assertEqual("Documentation", module.doc)
 

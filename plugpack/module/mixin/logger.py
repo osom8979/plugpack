@@ -7,7 +7,7 @@ from plugpack.module.errors import (
     ModuleAttributeInvalidValueError,
     ModuleAttributeNotFoundError,
 )
-from plugpack.module.mixin._module_base import ModuleBase
+from plugpack.module.mixin._base import ModuleBase
 
 ATTR_LOGGER: Final[str] = "__logger__"
 
@@ -19,13 +19,13 @@ class ModuleLogger(ModuleBase):
 
     def get_logger(self) -> Logger:
         if not self.has(ATTR_LOGGER):
-            raise ModuleAttributeNotFoundError(self.name, ATTR_LOGGER)
+            raise ModuleAttributeNotFoundError(self.module_name, ATTR_LOGGER)
 
         value = self.get(ATTR_LOGGER)
 
         if value is None:
             raise ModuleAttributeInvalidValueError(
-                self.name,
+                self.module_name,
                 ATTR_LOGGER,
                 "It must not be of `None`",
             )
@@ -36,7 +36,7 @@ class ModuleLogger(ModuleBase):
             return value
         else:
             raise ModuleAttributeInvalidValueError(
-                self.name,
+                self.module_name,
                 ATTR_LOGGER,
                 f"Unknown attribute type: {type(value).__name__}",
             )
@@ -46,4 +46,4 @@ class ModuleLogger(ModuleBase):
         try:
             return self.get_logger()
         except:  # noqa
-            return getLogger(self.name)
+            return getLogger(self.module_name)

@@ -6,7 +6,7 @@ from plugpack.module.errors import (
     ModuleAttributeInvalidValueError,
     ModuleAttributeNotFoundError,
 )
-from plugpack.module.mixin._module_base import ModuleBase
+from plugpack.module.mixin._base import ModuleBase
 
 ATTR_DOC: Final[str] = "__doc__"
 
@@ -18,20 +18,20 @@ class ModuleDoc(ModuleBase):
 
     def get_doc(self) -> str:
         if not self.has(ATTR_DOC):
-            raise ModuleAttributeNotFoundError(self.name, ATTR_DOC)
+            raise ModuleAttributeNotFoundError(self.module_name, ATTR_DOC)
 
         value = self.get(ATTR_DOC)
 
         if value is None:
             raise ModuleAttributeInvalidValueError(
-                self.name,
+                self.module_name,
                 ATTR_DOC,
                 "It must not be of `None`",
             )
 
         if not isinstance(value, str):
             raise ModuleAttributeInvalidValueError(
-                self.name,
+                self.module_name,
                 ATTR_DOC,
                 "The attribute must be of type `str`",
             )

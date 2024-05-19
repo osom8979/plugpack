@@ -47,15 +47,15 @@ class ModuleBase(metaclass=ABCMeta):
         return get_module_directory(self._module)
 
     @property
-    def name(self) -> str:
+    def module_name(self) -> str:
         assert self._module is not None
         return self._module.__name__
 
     def __repr__(self) -> str:
-        return f"<ModuleBase[{self.name}]>"
+        return f"<ModuleBase[{self.module_name}]>"
 
     def __str__(self) -> str:
-        return self.name
+        return self.module_name
 
     def has(self, name: str) -> bool:
         assert self._module is not None
